@@ -10,19 +10,20 @@
     tools:context=".MainActivity">
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp" 
+        android:id="@+id/underline"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
         android:background="@color/lightGray"
-        app:layout_constraintTop_toBottomOf="@+id/textTidyTime"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/textTidyTime"
+        app:layout_constraintEnd_toEndOf="@id/textTidyTime"
+        app:layout_constraintTop_toBottomOf="@id/textTidyTime"
         android:layout_marginTop="8dp" />
 
     <TextView
         android:id="@+id/textTidyTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/TidyTime"
+        android:text="@string/tidytime"
         android:fontFamily="sans-serif-condensed-light"
         android:textSize="60sp"
         android:textColor="@color/lightGray"
@@ -32,6 +33,27 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.3" />
 
+    <FrameLayout
+        android:id="@+id/circleFrame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/underline"
+        app:layout_constraintStart_toStartOf="@id/underline"
+        app:layout_constraintEnd_toEndOf="@id/underline"
+        android:layout_marginTop="100dp">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/startButton"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:text="@string/start"
+            android:textSize="40sp"
+            android:textColor="@color/lightGray"
+            android:background="@drawable/circle_button"
+            android:padding="10dp"
+            android:fontFamily="sans-serif-condensed-light"
+            android:textAllCaps="false"/>
+    </FrameLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
