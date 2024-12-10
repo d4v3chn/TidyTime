@@ -9,7 +9,17 @@
     android:background="@color/charcoal"
     tools:context=".MainActivity">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp" 
+        android:background="@color/lightGray"
+        app:layout_constraintTop_toBottomOf="@+id/textTidyTime"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp" />
+
     <TextView
+        android:id="@+id/textTidyTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/TidyTime"
@@ -21,5 +31,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.3" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
