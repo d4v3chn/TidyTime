@@ -15,10 +15,10 @@ public class ChoiceActivity extends AppCompatActivity {
         AppCompatButton btnTimer = findViewById(R.id.btnTimer);
         btnTimer.setOnClickListener(v -> startActivity(new Intent(this, TimerActivity.class)));
 
-        AppCompatButton btnStopwatch = findViewById(R.id.btnStopwatch);  // Assume you have StopwatchActivity
+        AppCompatButton btnStopwatch = findViewById(R.id.btnStopwatch);
         btnStopwatch.setOnClickListener(v -> startActivity(new Intent(this, StopwatchActivity.class)));
 
-        AppCompatButton btnTodo = findViewById(R.id.btnTodo);  // Assume you have TodoActivity
+        AppCompatButton btnTodo = findViewById(R.id.btnTodo);
         btnTodo.setOnClickListener(v -> startActivity(new Intent(this, TodoActivity.class)));
     }
 }

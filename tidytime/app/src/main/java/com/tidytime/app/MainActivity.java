@@ -18,7 +18,6 @@ public class MainActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Intent to start the ChoiceActivity
                 Intent intent = new Intent(MainActivity.this, ChoiceActivity.class);
                 startActivity(intent);
             }

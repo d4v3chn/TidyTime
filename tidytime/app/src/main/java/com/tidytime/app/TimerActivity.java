@@ -14,10 +14,10 @@ import java.util.concurrent.TimeUnit;
 
 public class TimerActivity extends AppCompatActivity {
     private TextView timerTextView;
-    private AppCompatButton startStopButton, pauseButton; // Changed back to pauseButton
+    private AppCompatButton startStopButton, pauseButton;
     private CountDownTimer countDownTimer;
     private boolean timerRunning;
-    private long remainingTimeMillis; // Track remaining time for pause/resume
+    private long remainingTimeMillis;
     private EditText minutesInput, secondsInput;
 
     @Override
@@ -27,11 +27,11 @@ public class TimerActivity extends AppCompatActivity {
 
         timerTextView = findViewById(R.id.timerText);
         startStopButton = findViewById(R.id.startTimerButton);
-        pauseButton = findViewById(R.id.pauseButton); // Matching XML layout ID
+        pauseButton = findViewById(R.id.pauseButton);
         minutesInput = findViewById(R.id.minutesInput);
         secondsInput = findViewById(R.id.secondsInput);
 
-        // Initially hide pause button
+
         pauseButton.setVisibility(View.GONE);
 
         startStopButton.setOnClickListener(v -> {
