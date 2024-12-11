@@ -3,21 +3,22 @@ package com.tidytime.app;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
-import androidx.core.content.res.ResourcesCompat;
+
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class TimerActivity extends AppCompatActivity {
-
     private TextView timerTextView;
-    private AppCompatButton startStopButton, pauseButton;
+    private AppCompatButton startStopButton, pauseButton; // Changed back to pauseButton
     private CountDownTimer countDownTimer;
     private boolean timerRunning;
-    private long timeLeftInMillis = 60000; // 1 minute for demonstration
+    private long remainingTimeMillis; // Track remaining time for pause/resume
+    private EditText minutesInput, secondsInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,48 +27,51 @@ public class TimerActivity extends AppCompatActivity {
 
         timerTextView = findViewById(R.id.timerText);
         startStopButton = findViewById(R.id.startTimerButton);
+        pauseButton = findViewById(R.id.pauseButton); // Matching XML layout ID
+        minutesInput = findViewById(R.id.minutesInput);
+        secondsInput = findViewById(R.id.secondsInput);
+
+        // Initially hide pause button
+        pauseButton.setVisibility(View.GONE);
 
         startStopButton.setOnClickListener(v -> {
             if (!timerRunning) {
                 startTimer();
-                setupButtonsForRunning();
+                pauseButton.setVisibility(View.VISIBLE);
+                pauseButton.setText(R.string.pause);
+                startStopButton.setText(R.string.stop);
             } else {
                 stopTimer();
+                startStopButton.setText(R.string.start);
+                pauseButton.setVisibility(View.GONE);
+            }
+        });
+
+        pauseButton.setOnClickListener(v -> {
+            if (timerRunning) {
+                pauseTimer();
+            } else {
+                resumeTimer();
             }
         });
     }
 
-    private void setupButtonsForRunning() {
-        startStopButton.setText(R.string.stop);
-
-        // Create the Pause button dynamically
-        if (pauseButton == null) {
-            pauseButton = new AppCompatButton(this);
-            pauseButton.setId(View.generateViewId());
-            pauseButton.setText(R.string.pause);
-            pauseButton.setTextSize(40);
-            pauseButton.setTextColor(ResourcesCompat.getColor(getResources(), R.color.lightGray, null));
-            pauseButton.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.circle_button, null));
-            pauseButton.setOnClickListener(v -> pauseTimer());
-
-            ((ConstraintLayout) startStopButton.getParent()).addView(pauseButton);
-
-            ConstraintSet constraintSet = new ConstraintSet();
-            constraintSet.clone((ConstraintLayout) startStopButton.getParent());
-            constraintSet.connect(pauseButton.getId(), ConstraintSet.START, startStopButton.getId(), ConstraintSet.END, 8);
-            constraintSet.connect(pauseButton.getId(), ConstraintSet.TOP, startStopButton.getId(), ConstraintSet.TOP);
-            constraintSet.connect(pauseButton.getId(), ConstraintSet.BOTTOM, startStopButton.getId(), ConstraintSet.BOTTOM);
-            constraintSet.applyTo((ConstraintLayout) startStopButton.getParent());
-        }
-
-        pauseButton.setVisibility(View.VISIBLE);
+    private void startTimer() {
+        remainingTimeMillis = parseTimerDuration();
+        createAndStartTimer(remainingTimeMillis);
+        timerRunning = true;
     }
 
-    private void startTimer() {
-        countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
+    private void createAndStartTimer(long milliseconds) {
+        // Cancel any existing timer
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
+
+        countDownTimer = new CountDownTimer(milliseconds, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                timeLeftInMillis = millisUntilFinished;
+                remainingTimeMillis = millisUntilFinished;
                 updateCountDownText();
             }
 
@@ -75,28 +79,47 @@ public class TimerActivity extends AppCompatActivity {
             public void onFinish() {
                 timerRunning = false;
                 startStopButton.setText(R.string.start);
-                if (pauseButton != null) pauseButton.setVisibility(View.GONE);
+                pauseButton.setVisibility(View.GONE);
+                timerTextView.setText(R.string.initial_time);
             }
         }.start();
-        timerRunning = true;
     }
 
     private void stopTimer() {
-        countDownTimer.cancel();
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
         timerRunning = false;
-        startStopButton.setText(R.string.start);
-        if (pauseButton != null) pauseButton.setVisibility(View.GONE);
+        timerTextView.setText(R.string.initial_time);
+        remainingTimeMillis = 0;
     }
 
     private void pauseTimer() {
-        countDownTimer.cancel();
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
         timerRunning = false;
-        startStopButton.setText(R.string.resume);
+        pauseButton.setText(R.string.resume);
+    }
+
+    private void resumeTimer() {
+        createAndStartTimer(remainingTimeMillis);
+        timerRunning = true;
+        pauseButton.setText(R.string.pause);
+    }
+
+    private long parseTimerDuration() {
+        int minutes = minutesInput.getText().toString().isEmpty() ? 0 :
+                Integer.parseInt(minutesInput.getText().toString());
+        int seconds = secondsInput.getText().toString().isEmpty() ? 0 :
+                Integer.parseInt(secondsInput.getText().toString());
+
+        return TimeUnit.MINUTES.toMillis(minutes) + TimeUnit.SECONDS.toMillis(seconds);
     }
 
     private void updateCountDownText() {
-        int minutes = (int) (timeLeftInMillis / 1000) / 60;
-        int seconds = (int) (timeLeftInMillis / 1000) % 60;
+        int minutes = (int) (remainingTimeMillis / 1000) / 60;
+        int seconds = (int) (remainingTimeMillis / 1000) % 60;
         String timeFormatted = String.format(Locale.UK, "%02d:%02d", minutes, seconds);
         timerTextView.setText(timeFormatted);
     }

@@ -2,52 +2,24 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/charcoal"
-    tools:context=".TimerActivity">
+    android:background="@color/charcoal">
 
-    <TextView
-        android:id="@+id/timerText"
+    <Chronometer
+        android:id="@+id/chronometer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
         android:fontFamily="sans-serif-condensed-light"
         android:text="@string/initial_time"
         android:textColor="@color/lightGray"
         android:textSize="100sp"
-        app:layout_constraintBottom_toTopOf="@+id/minutesInput"
+        android:layout_marginTop="400dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonsContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.3" />
-
-    <EditText
-        android:id="@+id/minutesInput"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:autofillHints="minutes"
-        android:hint="@string/minutes"
-        android:inputType="number"
-        android:textColor="@color/lightGray"
-        android:textColorHint="@color/lightGray"
-        app:layout_constraintEnd_toStartOf="@+id/secondsInput"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timerText" />
-
-    <EditText
-        android:id="@+id/secondsInput"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:autofillHints="seconds"
-        android:hint="@string/seconds"
-        android:inputType="number"
-        android:textColor="@color/lightGray"
-        android:textColorHint="@color/lightGray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/minutesInput"
-        app:layout_constraintTop_toTopOf="@+id/minutesInput" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/buttonsContainer"
@@ -56,10 +28,10 @@
         android:layout_marginTop="100dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/secondsInput">
+        app:layout_constraintTop_toBottomOf="@id/chronometer">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/startTimerButton"
+            android:id="@+id/startStopButton"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:background="@drawable/circle_button"
@@ -69,24 +41,26 @@
             android:textAllCaps="false"
             android:textColor="@color/lightGray"
             android:textSize="40sp"
-            app:layout_constraintEnd_toStartOf="@+id/pauseButton"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintEnd_toStartOf="@+id/resetButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/pauseButton"
+            android:id="@+id/resetButton"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:background="@drawable/circle_button"
             android:fontFamily="sans-serif-condensed-light"
             android:padding="10dp"
-            android:layout_marginStart="30dp"
-            android:text="@string/pause"
+            android:text="@string/reset"
             android:textAllCaps="false"
             android:textColor="@color/lightGray"
             android:textSize="40sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/startTimerButton"
+            app:layout_constraintStart_toEndOf="@+id/startStopButton"
             app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
